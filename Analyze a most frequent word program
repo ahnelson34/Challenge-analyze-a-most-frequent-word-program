@@ -1,0 +1,31 @@
+function getTokens(rawString) {
+  // NB: `.filter(Boolean)` removes any falsy items from an array
+  return rawString.toLowerCase().split(/[ ,!.";:-]+/).filter(Boolean).sort();
+  //this function makes strings lower case, and also separates them for special characters ( ,!.";:-]+/) and with fitler(Boolean), removes any falsy items from the array. This is sort of the prep work to make sure we are returning strings that we want to look at.
+}
+//function to find the most frequent words
+function mostFrequentWord(text) {
+  // getTokens is another step used to clean the data set. We want to make sure that we are using strings > 0 characters as well as removing spaces before and after strings.
+  let words = getTokens(text);
+  //this below block of texts is setting the rules count the frequency of useage of a single word. This loop looks for strings (starting at zero) and when it returns a string, repeats and looks for usage 1 times, then 2, and so on and so forth and assigns it a number value.
+  let wordFrequencies = {};
+  for (let i = 0; i <= words.length; i++) {
+    if (words[i] in wordFrequencies) {
+      wordFrequencies[words[i]]++;
+    } else {
+      wordFrequencies[words[i]] = 1;
+    }
+  }
+  //currentMaxKey is arranging all the key/values in wordFrequencies objects as an array and starts from 0 and calls it currentMaxKey. currentMaxcount is then the currentMaxKey found in the previous loop, wordFrequencies.
+  let currentMaxKey = Object.keys(wordFrequencies)[0];
+  let currentMaxCount = wordFrequencies[currentMaxKey];
+  //the below loop is telling us to loop until currentMaxCount = currentMaxKey
+  for (let word in wordFrequencies) {
+    if (wordFrequencies[word] > currentMaxCount) {
+      currentMaxKey = word;
+      currentMaxCount = wordFrequencies[word];
+    }
+  }
+  //this return line runs the function and gives us the currentMaxKey
+  return currentMaxKey;
+}
